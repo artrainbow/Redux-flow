@@ -5,12 +5,12 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
 const initialState = [
-    'Smells like spirit',
-    'Enter Sandman'
+    { title: 'Smells like spirit' },
+    { title: 'Enter Sandman' }
 ];
 
-const playlist = (state = initialState, action) => { // this is reducer function
-
+const reducer = (state = initialState, action) => { // this is reducer function
+    console.log('action', action);
     if (action.type === 'ADD_TRACK') {
         return [
             ...state,
@@ -18,10 +18,10 @@ const playlist = (state = initialState, action) => { // this is reducer function
         ];
     }
 
-    return state;
+    return [...state];
 };
 
-const store = createStore(playlist);
+const store = createStore(reducer);
 
 ReactDOM.render(
     <Provider store = { store }>

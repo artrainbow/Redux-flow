@@ -3,13 +3,17 @@ import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
 
-//@hot(module)
+@hot(module)
 class App extends Component {
     render () {
-        const { testStore } = this.props;
+        const { store, onAddtrack } = this.props;
+
+        console.log('props', store);
 
         const addTrack = () => {
             console.log('addtrack', this.trackInput.value);
+            onAddtrack({ title: this.trackInput.value });
+            this.trackInput.value = '';
         };
 
         return (
@@ -22,10 +26,7 @@ class App extends Component {
                 />
                 <button onClick = { addTrack }>Add track</button>
                 <ul>
-                    {testStore.map((track, index) => (
-                        <li key = { index }>{track}</li>
-                    ),
-                    )}
+                    {store.map((track, index) => (<li key = { index }>{track.title}</li>))}
                 </ul>
             </>
         );
@@ -34,7 +35,14 @@ class App extends Component {
 
 export default connect(
     (state) => ({
-        testStore: state,
+        store: state,
     }),
-    (dispatch) => ({}),
+    (dispatch) => ({
+        onAddtrack: (trackName) => {
+            dispatch({
+                type:    'ADD_TRACK',
+                payload: trackName,
+            });
+        },
+    }),
 )(App);
