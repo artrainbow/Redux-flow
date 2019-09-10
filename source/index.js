@@ -21,7 +21,7 @@ const reducer = (state = initialState, action) => { // this is reducer function
     return [...state];
 };
 
-const store = createStore(reducer);
+const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()); // window.__REDUX_DEVTOOLS_EXTENSION__ for REDUX devtool extension for Chrome
 
 ReactDOM.render(
     <Provider store = { store }>
