@@ -30,7 +30,7 @@ export const generateDevelopmentConfiguration = () =>
             devServer: {
                 hot:                true,
                 historyApiFallback: true,
-                host:               '0.0.0.0',
+                host:               'localhost',
                 overlay:            true,
                 port:               3000,
                 stats:              'errors-only',
