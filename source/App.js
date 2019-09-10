@@ -8,12 +8,19 @@ class App extends Component {
     render () {
         const { testStore } = this.props;
 
-        console.log('this.props', this.props);
+        const addTrack = () => {
+            console.log('addtrack', this.trackInput.value);
+        };
 
         return (
             <>
-                <input type = 'text' />
-                <button>Add track</button>
+                <input
+                    ref = { (input) => {
+                        this.trackInput = input;
+                    } }
+                    type = 'text'
+                />
+                <button onClick = { addTrack }>Add track</button>
                 <ul>
                     {testStore.map((track, index) => (
                         <li key = { index }>{track}</li>
