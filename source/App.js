@@ -26,7 +26,7 @@ class App extends Component {
                 />
                 <button onClick = { addTrack }>Add track</button>
                 <ul>
-                    {store.map((track, index) => (<li key = { index }>{track.title}</li>))}
+                    {store.tracks.map((track, index) => (<li key = { index }>{track.title}</li>))}
                 </ul>
             </>
         );
