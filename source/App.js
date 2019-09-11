@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 import { getTracks } from './actions/tracks';
 
@@ -12,9 +13,11 @@ class App extends Component {
             store,
             onAddtrack,
             onFindTrack,
+            onGetTracks,
+            ownProps,
         } = this.props;
 
-        console.log('store', this.props);
+        console.log('ownProps', ownProps);
 
         const addTrack = () => {
             console.log('addtrack', this.trackInput.value);
@@ -48,10 +51,15 @@ class App extends Component {
                     <button onClick = { addTrack }>Add track</button>
                 </div>
                 <div>
-                    <button onClick = { this.props.onGetTracks }>Fetch tracks from remote store</button>
+                    <button onClick = { onGetTracks }>Fetch tracks from remote store</button>
                 </div>
                 <ul>
-                    {store.map((track, index) => (<li key = { index }>{track.name}</li>))}
+                    {store.map((track, index) => (
+                        <li key = { index }>
+                            <Link to = { `/tracks/${track.id}` } >{track.name}</Link>
+
+                        </li>
+                    ))}
                 </ul>
             </>
         );
@@ -59,8 +67,9 @@ class App extends Component {
 }
 
 export default connect(
-    (state) => ({
+    (state, ownProps) => ({
         store: state.tracks.filter((track) => track.name.includes(state.filterTracks)),
+        ownProps,
     }),
     (dispatch) => ({
         onAddtrack: (name) => {
