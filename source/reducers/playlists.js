@@ -1,6 +1,6 @@
 const initialState = [
-    { title: 'My home playlist' },
-    { title: 'My work playlist' }
+    { name: 'My home playlist' },
+    { name: 'My work playlist' }
 ];
 
 export default function playlists (state = initialState, action) {

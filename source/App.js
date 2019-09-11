@@ -6,27 +6,49 @@ import { connect } from 'react-redux';
 @hot(module)
 class App extends Component {
     render () {
-        const { store, onAddtrack } = this.props;
+        const {
+            store,
+            onAddtrack,
+            onFindTrack,
+        } = this.props;
 
-        console.log('props', store);
+        console.log('store', store);
 
         const addTrack = () => {
             console.log('addtrack', this.trackInput.value);
-            onAddtrack({ title: this.trackInput.value });
+            onAddtrack(this.trackInput.value);
             this.trackInput.value = '';
+        };
+
+        const findTrack = () => {
+            console.log('findTrack', this.searchInput.value);
+            onFindTrack(this.searchInput.value);
+            this.searchInput.value = '';
         };
 
         return (
             <>
-                <input
-                    ref = { (input) => {
-                        this.trackInput = input;
-                    } }
-                    type = 'text'
-                />
-                <button onClick = { addTrack }>Add track</button>
+                <div>
+                    <input
+                        ref = { (input) => {
+                            this.searchInput = input;
+                        } }
+                        type = 'text'
+                    />
+                    <button onClick = { findTrack }>Find track</button>
+                </div>
+                <div>
+                    <input
+                        ref = { (input) => {
+                            this.trackInput = input;
+                        } }
+                        type = 'text'
+                    />
+                    <button onClick = { addTrack }>Add track</button>
+                </div>
+
                 <ul>
-                    {store.tracks.map((track, index) => (<li key = { index }>{track.title}</li>))}
+                    {store.map((track, index) => (<li key = { index }>{track.name}</li>))}
                 </ul>
             </>
         );
@@ -35,13 +57,24 @@ class App extends Component {
 
 export default connect(
     (state) => ({
-        store: state,
+        store: state.tracks.filter(track => track.name.includes(state.filterTracks)),
     }),
     (dispatch) => ({
-        onAddtrack: (trackName) => {
+        onAddtrack: (name) => {
+            const payload = {
+                id: Date.now().toString(),
+                name,
+            };
+
             dispatch({
-                type:    'ADD_TRACK',
-                payload: trackName,
+                type: 'ADD_TRACK',
+                payload,
+            });
+        },
+        onFindTrack: (name) => {
+            dispatch({
+                type:    'FIND_TRACK',
+                payload: name,
             });
         },
     }),
