@@ -11,22 +11,24 @@ class App extends Component {
     render () {
         const {
             store,
-            onAddtrack,
+            onAddTrack,
+            onRemoveTrack,
             onFindTrack,
             onGetTracks,
             ownProps,
         } = this.props;
 
-        console.log('ownProps', ownProps);
-
         const addTrack = () => {
-            console.log('addtrack', this.trackInput.value);
-            onAddtrack(this.trackInput.value);
+            onAddTrack(this.trackInput.value);
             this.trackInput.value = '';
         };
 
+        const removeTrack = (id) => {
+            console.log(id);
+            onRemoveTrack(id);
+        };
+
         const findTrack = () => {
-            console.log('findTrack', this.searchInput.value);
             onFindTrack(this.searchInput.value);
         };
 
@@ -56,8 +58,13 @@ class App extends Component {
                 <ul>
                     {store.map((track, index) => (
                         <li key = { index }>
-                            <Link to = { `/tracks/${track.id}` } >{track.name}</Link>
-
+                            <Link to = { `/tracks/${track.id}` }>{track.name}</Link>
+                            <span>&nbsp;&nbsp;</span>
+                            <button
+                                onClick = { () => {
+                                    removeTrack(track.id);
+                                } }>Remove
+                            </button>
                         </li>
                     ))}
                 </ul>
@@ -72,7 +79,7 @@ export default connect(
         ownProps,
     }),
     (dispatch) => ({
-        onAddtrack: (name) => {
+        onAddTrack: (name) => {
             const payload = {
                 id: Date.now().toString(),
                 name,
@@ -81,6 +88,12 @@ export default connect(
             dispatch({
                 type: 'ADD_TRACK',
                 payload,
+            });
+        },
+        onRemoveTrack: (id) => {
+            dispatch({
+                type: 'REMOVE_TRACK', // type и payload будут переданы в reducer функцию tracks
+                payload: id,
             });
         },
         onFindTrack: (name) => {

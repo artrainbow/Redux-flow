@@ -14,10 +14,6 @@ const initialState = [
     {
         id:   4,
         name: 'Track 4',
-    },
-    {
-        id:   5,
-        name: 'Track 5',
     }
 ];
 
@@ -30,6 +26,8 @@ export default function tracks (state = initialState, action) {
         ];
     } else if (action.type === 'FETCH_TRACKS_SUCCESS') {
         return action.payload;
+    } else if (action.type === 'REMOVE_TRACK') {
+        return [...state].filter(item => item.id !== action.payload);
     }
 
     return [...state];

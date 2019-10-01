@@ -7,8 +7,6 @@ const Track = ({ track }) => (
 );
 
 const mapStateToProps= (state, ownProps) => {
-    console.log('ownProps', ownProps);
-
     return {
         track: state.tracks.find((track) => track.id === Number(ownProps.params.id)),
     };

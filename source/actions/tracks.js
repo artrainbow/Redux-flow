@@ -18,6 +18,10 @@ const mockApiData = [
     {
         id:   5,
         name: 'Track 5',
+    },
+    {
+        id:   6,
+        name: 'Track 6',
     }
 ];
 
@@ -27,5 +31,5 @@ export const getTracks = () => (dispatch) => {
             type:    'FETCH_TRACKS_SUCCESS',
             payload: mockApiData,
         });
-    }, 3000);
+    }, 1000);
 };
